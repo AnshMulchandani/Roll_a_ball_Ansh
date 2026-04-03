@@ -22,4 +22,11 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(moveX, 0.0f, moveY);   
         rb.AddForce(movement*speed);
     }
+    //deactive the objects that colides with sphere
+    private void OnTriggerEnter(Collider other)
+    {   if(other.gameObject.CompareTag("Pick up"))
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
 }
