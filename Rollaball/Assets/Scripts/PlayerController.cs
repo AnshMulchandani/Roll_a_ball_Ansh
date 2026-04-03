@@ -1,21 +1,36 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private float moveX;
     private float moveY;
     public float speed = 0;
+    public TextMeshProUGUI countText;
+    private int count;
+    public GameObject winText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        count = 0;
+        SetCountText();
+        winText.SetActive(false);
     }
     void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
         moveX = movementVector.x;
         moveY = movementVector.y;
+    }
+    void SetCountText()
+    {
+        countText.text = "Count: "+count.ToString();
+        if(count >= 5)
+        {
+            winText.SetActive(true);
+        }
     }
     void FixedUpdate()
     {
@@ -27,6 +42,8 @@ public class PlayerController : MonoBehaviour
     {   if(other.gameObject.CompareTag("Pick up"))
         {
             other.gameObject.SetActive(false);
+            count += 1;
+            SetCountText();
         }
     }
 }
