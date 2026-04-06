@@ -30,12 +30,24 @@ public class PlayerController : MonoBehaviour
         if(count >= 5)
         {
             winText.SetActive(true);
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(moveX, 0.0f, moveY);   
         rb.AddForce(movement*speed);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            //destroy player.
+            Destroy(gameObject); 
+            // Update the winText to display "You Lose!"
+            winText.gameObject.SetActive(true);
+            winText.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
     }
     //deactive the objects that colides with sphere
     private void OnTriggerEnter(Collider other)
